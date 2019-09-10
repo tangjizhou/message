@@ -35,5 +35,11 @@ public class MessageContext {
      */
     private String messageId = UUID.randomUUID().toString();
 
+    public MessageContext(MessageType messageType, String from, List<String> to, String content) {
+        this.messageType = messageType;
+        this.from = from;
+        this.to = to;
+        this.content = content;
+    }
 
 }
