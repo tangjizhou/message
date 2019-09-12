@@ -21,9 +21,5 @@ public class RabbitProducerListener implements MessageListener {
         log.info("message listener: {}", new String(message.getBody()));
     }
 
-    @Override
-    public void containerAckMode(AcknowledgeMode mode) {
-
-    }
 
 }

@@ -18,12 +18,14 @@ import java.util.List;
 @Data
 public class SimpleEmailContext extends MessageContext {
 
+    private String subject;
     private List<String> cc;
     private List<String> bcc;
 
     @Builder
-    public SimpleEmailContext(String from, List<String> to, String content, List<String> cc, List<String> bcc) {
+    public SimpleEmailContext(String from, List<String> to, String subject, String content, List<String> cc, List<String> bcc) {
         super(MessageType.SIMPLE_EMAIL, from, to, content);
+        this.subject = subject;
         this.cc = cc;
         this.bcc = bcc;
     }

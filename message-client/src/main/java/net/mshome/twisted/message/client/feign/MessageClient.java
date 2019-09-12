@@ -1,4 +1,4 @@
-package net.mshome.twisted.message.client.constant.feign;
+package net.mshome.twisted.message.client.feign;
 
 /**
  * TODO

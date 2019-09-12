@@ -1,4 +1,4 @@
-package net.mshome.twisted.message.client.constant.constant;
+package net.mshome.twisted.message.client.constant;
 
 /**
  * api常量类，主要配置消息服务的服务路径，即requestMapping路径

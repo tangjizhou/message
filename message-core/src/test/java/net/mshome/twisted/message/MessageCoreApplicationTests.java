@@ -1,5 +1,6 @@
 package net.mshome.twisted.message;
 
+import com.alibaba.fastjson.JSON;
 import net.mshome.twisted.message.model.email.SimpleEmailContext;
 import net.mshome.twisted.message.service.impl.SimpleEmailMessageHandler;
 import org.junit.Test;
@@ -21,9 +22,12 @@ public class MessageCoreApplicationTests {
     @Test
     public void contextLoads() {
 
-        SimpleEmailContext context = SimpleEmailContext.builder().from("tangjizhou").to(List.of("tangjizhou"))
+        SimpleEmailContext context = SimpleEmailContext.builder().subject("测试邮件")
+                .from("tangjizhouchn@qq.com").to(List.of("tangjizhouchn@foxmail.com"))
                 .content("你好").build();
-        rabbitTemplate.convertAndSend("t_message", context);
+
+        String body = JSON.toJSONString(context);
+        rabbitTemplate.convertAndSend("t_message", body.getBytes());
     }
 
 }
