@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * TODO
+ * 队列配置
  *
  * @author tangjizhouchn@foxmail.com
  * @date 2019/9/10

@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 /**
- * TODO
+ * 简单邮件发送实现类
  *
  * @author tangjizhouchn@foxmail.com
  * @date 2019/9/10
@@ -47,6 +47,7 @@ public class SimpleEmailMessageHandler implements MessageHandler {
             messageHelper.setBcc(Optional.ofNullable(context.getBcc()).orElse(Collections.emptyList()).toArray(String[]::new));
             messageHelper.setCc(Optional.ofNullable(context.getCc()).orElse(Collections.emptyList()).toArray(String[]::new));
             mailSender.send(message);
+
         } catch (MessagingException e) {
             log.error("email [{}] send failed", context.getMessageId(), e);
         }

@@ -1,13 +1,12 @@
 package net.mshome.twisted.message.listener;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
 import org.springframework.stereotype.Component;
 
 /**
- * TODO
+ * 队列监听
  *
  * @author tangjizhouchn@foxmail.com
  * @date 2019/9/10
