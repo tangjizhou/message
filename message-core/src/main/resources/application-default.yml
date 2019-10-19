@@ -1,1 +1,20 @@
+spring:
+  rabbitmq:
+    addresses: 127.0.0.1
+    port: 5672
+    listener:
+      direct:
+        acknowledge-mode: manual
+        retry:
+          enabled: true
+          max-attempts: 3
+          max-interval: 1000ms
+          initial-interval: 500ms
+        auto-startup: true
+        prefetch: 5
 
+  mail:
+    host: smtp.qq.com
+    username: tangjizhouchn@qq.com
+    password: qqgptxffksvgbfgf
+    default-encoding: utf-8

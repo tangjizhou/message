@@ -19,7 +19,7 @@ public class MessageController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @PostMapping("/message/api/v1/send")
+    @PostMapping("/api/v1/send")
     public void send(@RequestBody MessageContext messageContext) {
         rabbitTemplate.convertAndSend("t_message", messageContext);
     }

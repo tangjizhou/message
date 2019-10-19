@@ -1,6 +1,11 @@
 package net.mshome.twisted.message.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
+import net.mshome.twisted.message.model.email.SecretEmailContext;
+import net.mshome.twisted.message.model.email.SimpleEmailContext;
+import net.mshome.twisted.message.model.sms.SMSContext;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,6 +17,12 @@ import java.util.UUID;
  * @date 2019/9/10
  */
 @Data
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "messageType", visible = true)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = SimpleEmailContext.class, name = MessageType.StringType.SIMPLE_EMAIL),
+        @JsonSubTypes.Type(value = SecretEmailContext.class, name = MessageType.StringType.SECRET_EMAIL),
+        @JsonSubTypes.Type(value = SMSContext.class, name = MessageType.StringType.SMS)
+})
 public class MessageContext {
 
     /**

@@ -18,9 +18,17 @@ import java.util.List;
 @Data
 public class SecretEmailContext extends MessageContext {
 
+    private String subject;
+    private List<String> cc;
+    private List<String> bcc;
+
     @Builder
-    public SecretEmailContext(MessageType messageType, String from, List<String> to, String content) {
-        super(messageType, from, to, content);
+    public SecretEmailContext(String from, List<String> to, String content,
+                              String subject, List<String> cc, List<String> bcc) {
+        super(MessageType.SECRET_EMAIL, from, to, content);
+        this.subject = subject;
+        this.cc = cc;
+        this.bcc = bcc;
     }
 
 }

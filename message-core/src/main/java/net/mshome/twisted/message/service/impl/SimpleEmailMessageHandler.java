@@ -47,7 +47,6 @@ public class SimpleEmailMessageHandler implements MessageHandler {
             messageHelper.setBcc(Optional.ofNullable(context.getBcc()).orElse(Collections.emptyList()).toArray(String[]::new));
             messageHelper.setCc(Optional.ofNullable(context.getCc()).orElse(Collections.emptyList()).toArray(String[]::new));
             mailSender.send(message);
-
         } catch (MessagingException e) {
             log.error("email [{}] send failed", context.getMessageId(), e);
         }

@@ -18,7 +18,9 @@
     <modules>
         <module>message-model</module>
         <module>message-core</module>
-        <module>message-client</module>
+        <module>message-client-feign</module>
+        <module>message-client-starter</module>
+        <module>message-sample</module>
     </modules>
     <properties>
         <java.version>11</java.version>
