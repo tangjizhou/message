@@ -1,6 +1,9 @@
 package net.mshome.twisted.message.service;
 
-import net.mshome.twisted.message.model.MessageType;
+import net.mshome.twisted.message.exception.MessageSendingException;
+import net.mshome.twisted.message.model.MessageContext;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 
 /**
  * 消息处理接口
@@ -15,6 +18,8 @@ public interface MessageHandler {
      *
      * @param content 消息体
      */
+    @Retryable(maxAttempts = 5, value = MessageSendingException.class,
+            backoff = @Backoff(delay = 2 * 1000L, multiplier = 2.0, maxDelay = 30 * 1000L))
     void execute(String content);
 
     /**
@@ -23,7 +28,7 @@ public interface MessageHandler {
      * @param messageType 消息类型
      * @return 是否可以处理当前消息类型
      */
-    boolean acquire(MessageType messageType);
+    boolean acquire(MessageContext.Type messageType);
 
 
 }

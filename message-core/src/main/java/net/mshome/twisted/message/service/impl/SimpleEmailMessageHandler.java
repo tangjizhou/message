@@ -2,13 +2,14 @@ package net.mshome.twisted.message.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import net.mshome.twisted.message.model.MessageType;
-import net.mshome.twisted.message.model.email.SimpleEmailContext;
+import net.mshome.twisted.message.model.MessageContext;
+import net.mshome.twisted.message.model.SimpleEmailContext;
 import net.mshome.twisted.message.service.MessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -33,6 +34,8 @@ public class SimpleEmailMessageHandler implements MessageHandler {
     @Autowired
     private MailProperties mailProperties;
 
+    @Autowired
+    private RetryTemplate retryTemplate;
 
     @Override
     public void execute(String content) {
@@ -46,15 +49,26 @@ public class SimpleEmailMessageHandler implements MessageHandler {
             messageHelper.setText(context.getContent(), true);
             messageHelper.setBcc(Optional.ofNullable(context.getBcc()).orElse(Collections.emptyList()).toArray(String[]::new));
             messageHelper.setCc(Optional.ofNullable(context.getCc()).orElse(Collections.emptyList()).toArray(String[]::new));
-            mailSender.send(message);
+            sendWithRetry(message);
         } catch (MessagingException e) {
             log.error("email [{}] send failed", context.getMessageId(), e);
         }
     }
 
+    private void sendWithRetry(MimeMessage message) {
+        retryTemplate.execute(retryContext -> {
+            mailSender.send(message);
+            return null;
+        }, fail -> {
+            log.error("邮件发送失败", fail.getLastThrowable());
+            return null;
+        });
+
+    }
+
     @Override
-    public boolean acquire(MessageType messageType) {
-        return MessageType.SIMPLE_EMAIL == messageType;
+    public boolean acquire(MessageContext.Type messageType) {
+        return MessageContext.Type.SIMPLE_EMAIL == messageType;
     }
 
 }

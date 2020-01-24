@@ -1,7 +1,7 @@
 package net.mshome.twisted.message.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import net.mshome.twisted.message.model.MessageType;
+import net.mshome.twisted.message.model.MessageContext;
 import net.mshome.twisted.message.service.MessageHandler;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +17,12 @@ public class SMSMessageHandler implements MessageHandler {
 
     @Override
     public void execute(String content) {
-
+        // todo 短信。。
     }
 
     @Override
-    public boolean acquire(MessageType messageType) {
-        return MessageType.SMS == messageType;
+    public boolean acquire(MessageContext.Type messageType) {
+        return MessageContext.Type.SMS == messageType;
     }
 
 }

@@ -1,11 +1,12 @@
 package net.mshome.twisted.message.listener;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.parser.Feature;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import net.mshome.twisted.message.constant.Constants;
 import net.mshome.twisted.message.model.MessageContext;
 import net.mshome.twisted.message.service.MessageHandler;
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +26,19 @@ import java.util.List;
 public class RabbitConsumerListener {
 
     @Autowired
-    private List<MessageHandler> messageHandlerList;
+    private List<MessageHandler> messageHandlers;
 
     @RabbitHandler
     public void handleMessage(byte[] message) {
-        String messageContent = new String(message);
-        MessageContext messageContext = JSON.parseObject(messageContent, MessageContext.class, Feature.IgnoreNotMatch);
-        try {
-            messageHandlerList.stream()
-                    .filter(messageHandler -> messageHandler.acquire(messageContext.getMessageType()))
-                    .forEach(messageHandler -> messageHandler.execute(messageContent));
-            log.info("message {} resolved", messageContext.getMessageId());
-        } catch (Exception e) {
-            log.error("message {} resolve failed", messageContext.getMessageId(), e);
-        }
+        String messageBody = new String(message);
+        JSONObject messageContext = JSON.parseObject(messageBody);
+
+        MessageContext.Type type = MessageContext.Type.valueOf(messageContext.getString("type"));
+        String messageId = messageContext.getString("messageId");
+        messageHandlers.stream()
+                .filter(messageHandler -> messageHandler.acquire(type))
+                .forEach(messageHandler -> messageHandler.execute(messageBody));
+        log.info("message {} resolved", messageId);
     }
 
 }

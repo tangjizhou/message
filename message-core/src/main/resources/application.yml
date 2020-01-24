@@ -1,4 +1,3 @@
 server:
-  port: 3310
   servlet:
     context-path: /message

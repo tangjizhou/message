@@ -10,7 +10,7 @@
     <artifactId>message-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>message-core</name>
-    <description>Demo project for Spring Boot</description>
+    <description>消息服务端</description>
 
     <properties>
         <java.version>11</java.version>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.60</version>
+            <version>1.2.61</version>
         </dependency>
     </dependencies>
 

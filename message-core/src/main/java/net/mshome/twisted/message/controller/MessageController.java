@@ -5,6 +5,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,12 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/9/10
  */
 @RestController
+@RequestMapping("message")
 public class MessageController {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @PostMapping("/api/v1/send")
+    @PostMapping("/send")
     public void send(@RequestBody MessageContext messageContext) {
         rabbitTemplate.convertAndSend("t_message", messageContext);
     }
