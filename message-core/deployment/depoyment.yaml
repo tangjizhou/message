@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message
+  namespace: cad-t4
+  labels:
+    app: message
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: message
+      labels:
+        app: message
+    spec:
+      containers:
+        - name: message
+          image: registry.cn-shanghai.aliyuncs.com/twisted-fate/message:26
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ACTIVE_PROFILE
+              value: test
+          resources:
+            requests:
+              memory: 100Mi
+              cpu: 500m
+            limits:
+              memory: 500Mi
+              cpu: 1000m
+          livenessProbe:
+            httpGet:
+              path: /message/actuator
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 120
+            timeoutSeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /message/actuator
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 5
+      restartPolicy: Always
+      hostNetwork: false
+  selector:
+    matchLabels:
+      app: message
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: message
+  namespace: cad-t4
+spec:
+  selector:
+    app: message
+  ports:
+    - port: 8080
+      targetPort: 8080
