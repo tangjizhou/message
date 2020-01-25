@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: message
-          image: registry.cn-shanghai.aliyuncs.com/twisted-fate/message:26
+          image: registry.cn-shanghai.aliyuncs.com/twisted-fate/message:1.0.21
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -32,7 +32,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /message/actuator
-              port: 8080
+              port: 8080c
               scheme: HTTP
             initialDelaySeconds: 120
             timeoutSeconds: 5
