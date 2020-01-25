@@ -7,9 +7,9 @@
         <artifactId>message</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>message-client-starter</artifactId>
+    <artifactId>message-spring-boot-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>message-client-starter</name>
+    <name>message-spring-boot-starter</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
