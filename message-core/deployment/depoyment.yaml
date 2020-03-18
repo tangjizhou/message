@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: message
-          image: registry.cn-shanghai.aliyuncs.com/twisted-fate/message:1.0.21
+          image: registry.cn-shanghai.aliyuncs.com/twisted-fate/message:1.0.22
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
