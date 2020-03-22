@@ -7,10 +7,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 对外暴露的rest接口
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/9/10
  */
 @RestController
-@RequestMapping("message")
 public class MessageController {
 
     @Autowired
@@ -32,6 +28,12 @@ public class MessageController {
         messageProperties.setConsumerQueue(Constants.queueName);
         Message message = new Message(JSON.toJSONBytes(messageContext), messageProperties);
         rabbitTemplate.send(message);
+    }
+
+    @GetMapping("/health")
+    public String health() {
+        rabbitTemplate.convertAndSend("health-check");
+        return "UP";
     }
 
 }

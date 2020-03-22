@@ -28,7 +28,7 @@ public class RabbitConsumerListener {
     private List<MessageHandler> messageHandlers;
 
     @RabbitHandler
-    public void handleMessage(byte[] message) {
+    public void consume(byte[] message) {
         String messageBody = new String(message);
         JSONObject messageContext = JSON.parseObject(messageBody);
 
