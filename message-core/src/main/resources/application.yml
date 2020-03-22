@@ -21,3 +21,5 @@ spring:
           initial-interval: 500ms
         auto-startup: true
         prefetch: 5
+  profiles:
+    active: test
