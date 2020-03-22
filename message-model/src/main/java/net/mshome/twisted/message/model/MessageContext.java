@@ -14,7 +14,7 @@ import java.util.UUID;
  * @date 2019/9/10
  */
 @Data
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "messageType", visible = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type", visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = SimpleEmailContext.class, name = MessageContext.Type.StringType.SIMPLE_EMAIL),
         @JsonSubTypes.Type(value = SMSContext.class, name = MessageContext.Type.StringType.SMS)

@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.mshome.twisted.message.constant.Constants;
 import net.mshome.twisted.message.model.MessageContext;
 import net.mshome.twisted.message.service.MessageHandler;
-import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
