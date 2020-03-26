@@ -6,11 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import net.mshome.twisted.message.constant.Constants;
 import net.mshome.twisted.message.model.MessageContext;
 import net.mshome.twisted.message.service.MessageHandler;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -28,16 +30,18 @@ public class RabbitConsumerListener {
     private List<MessageHandler> messageHandlers;
 
     @RabbitHandler
-    public void consume(byte[] message) {
-        String messageBody = new String(message);
-        JSONObject messageContext = JSON.parseObject(messageBody);
+    public void consume(Message message) {
+        log.info("开始消费消息[{}]", message.getMessageProperties().getMessageId());
+        String messageBody = new String(message.getBody(), StandardCharsets.UTF_8);
 
-        MessageContext.Type type = MessageContext.Type.valueOf(messageContext.getString("type"));
-        String messageId = messageContext.getString("messageId");
+        JSONObject messageJsonObject = JSON.parseObject(messageBody);
+        MessageContext.Type type = MessageContext.Type.valueOf(messageJsonObject.getString("type"));
+        String messageId = messageJsonObject.getString("messageId");
+
         messageHandlers.stream()
-                .filter(messageHandler -> messageHandler.acquire(type))
+                .filter(messageHandler -> messageHandler.supportsMessageType(type))
                 .forEach(messageHandler -> messageHandler.execute(messageBody));
-        log.info("message {} resolved", messageId);
+        log.info("消息[{}]发送成功", messageId);
     }
 
 }

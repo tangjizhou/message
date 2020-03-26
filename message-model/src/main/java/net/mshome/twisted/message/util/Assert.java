@@ -1,4 +1,4 @@
-package net.mshome.twisted.message.model.util;
+package net.mshome.twisted.message.util;
 
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;

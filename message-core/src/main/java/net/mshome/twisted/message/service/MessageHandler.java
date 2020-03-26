@@ -28,7 +28,7 @@ public interface MessageHandler {
      * @param messageType 消息类型
      * @return 是否可以处理当前消息类型
      */
-    boolean acquire(MessageContext.Type messageType);
+    boolean supportsMessageType(MessageContext.Type messageType);
 
 
 }

@@ -17,7 +17,7 @@ public class RabbitProducerListener implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
-        log.info("message listener: {}", new String(message.getBody()));
+        log.info("收到消息[{}]", message.getMessageProperties().getMessageId());
     }
 
 

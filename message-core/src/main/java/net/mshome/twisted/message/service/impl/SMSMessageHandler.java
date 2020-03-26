@@ -17,11 +17,11 @@ public class SMSMessageHandler implements MessageHandler {
 
     @Override
     public void execute(String content) {
-        // todo 短信。。
+        // todo 短信
     }
 
     @Override
-    public boolean acquire(MessageContext.Type messageType) {
+    public boolean supportsMessageType(MessageContext.Type messageType) {
         return MessageContext.Type.SMS == messageType;
     }
 

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -42,6 +44,10 @@ public abstract class MessageContext {
     public abstract void validate();
 
     public abstract Type acquireMessageType();
+
+    public List<String> getTo() {
+        return Optional.ofNullable(to).orElse(Collections.emptyList());
+    }
 
     public MessageContext(List<String> to, String content) {
         this.type = acquireMessageType();

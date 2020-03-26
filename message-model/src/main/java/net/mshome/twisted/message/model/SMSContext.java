@@ -3,7 +3,7 @@ package net.mshome.twisted.message.model;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.mshome.twisted.message.model.util.Assert;
+import net.mshome.twisted.message.util.Assert;
 
 import java.util.List;
 

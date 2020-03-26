@@ -9,7 +9,7 @@ import org.springframework.retry.backoff.ExponentialBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 
-import java.util.Collections;
+import java.util.Map;
 
 /**
  * 重试机制
@@ -25,7 +25,7 @@ public class RetryConfiguration {
     @Bean
     public RetryTemplate retryTemplate() {
         RetryTemplate retryTemplate = new RetryTemplate();
-        RetryPolicy retryPolicy = new SimpleRetryPolicy(5, Collections.singletonMap(MessageSendingException.class, true));
+        RetryPolicy retryPolicy = new SimpleRetryPolicy(5, Map.of(MessageSendingException.class, true));
         retryTemplate.setRetryPolicy(retryPolicy);
         ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();
         backOffPolicy.setInitialInterval(2 * 1000L);

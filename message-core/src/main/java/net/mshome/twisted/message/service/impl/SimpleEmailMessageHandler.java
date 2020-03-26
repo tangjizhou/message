@@ -7,6 +7,7 @@ import net.mshome.twisted.message.model.SimpleEmailContext;
 import net.mshome.twisted.message.service.MessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.core.io.FileUrlResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.retry.support.RetryTemplate;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Optional;
@@ -44,14 +46,21 @@ public class SimpleEmailMessageHandler implements MessageHandler {
         try {
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, StandardCharsets.UTF_8.displayName());
             messageHelper.setFrom(mailProperties.getUsername());
-            messageHelper.setTo(Optional.ofNullable(context.getTo()).orElse(Collections.emptyList()).toArray(String[]::new));
+            messageHelper.setTo(context.getTo().toArray(String[]::new));
             messageHelper.setSubject(context.getSubject());
             messageHelper.setText(context.getContent(), true);
-            messageHelper.setBcc(Optional.ofNullable(context.getBcc()).orElse(Collections.emptyList()).toArray(String[]::new));
-            messageHelper.setCc(Optional.ofNullable(context.getCc()).orElse(Collections.emptyList()).toArray(String[]::new));
+            messageHelper.setBcc(context.getBcc().toArray(String[]::new));
+            messageHelper.setCc(context.getCc().toArray(String[]::new));
+            context.getAttachments().forEach(attachment -> {
+                try {
+                    messageHelper.addAttachment(attachment.getFileName(), new FileUrlResource(attachment.getUrl()));
+                } catch (MessagingException | MalformedURLException e) {
+                    log.error("消息[{}]添加附件失败", context.getMessageId(), e);
+                }
+            });
             sendWithRetry(message);
         } catch (MessagingException e) {
-            log.error("email [{}] send failed", context.getMessageId(), e);
+            log.error("邮件发送失败[{}]", context.getMessageId(), e);
         }
     }
 
@@ -67,7 +76,7 @@ public class SimpleEmailMessageHandler implements MessageHandler {
     }
 
     @Override
-    public boolean acquire(MessageContext.Type messageType) {
+    public boolean supportsMessageType(MessageContext.Type messageType) {
         return MessageContext.Type.SIMPLE_EMAIL == messageType;
     }
 
