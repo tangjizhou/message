@@ -17,7 +17,7 @@ public class SMSMessageHandler implements MessageHandler {
 
     @Override
     public void execute(String content) {
-        // todo 短信
+        // todo 短信，没钱不支持
     }
 
     @Override
