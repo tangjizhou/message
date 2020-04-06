@@ -17,8 +17,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.Optional;
 
 /**
  * 简单邮件发送实现类

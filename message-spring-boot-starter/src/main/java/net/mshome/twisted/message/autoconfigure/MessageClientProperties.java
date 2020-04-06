@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * TODO
+ * 服务接口配置
  *
  * @author tangjizhouchn@foxmail.com
  * @date 2019/9/27

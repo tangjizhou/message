@@ -11,6 +11,6 @@ public class ApiDefinition {
     /**
      * 服务servlet-path
      */
-    public static String MESSAGE_SEND_URI = "/api/v1/send";
+    public static String MESSAGE_SEND_URI = "/send";
 
 }

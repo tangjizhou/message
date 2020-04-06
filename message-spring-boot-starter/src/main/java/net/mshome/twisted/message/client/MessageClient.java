@@ -22,8 +22,8 @@ public class MessageClient {
 
     public void send(MessageContext messageContext) {
         messageContext.validate();
-        restTemplate.postForEntity(properties.getRootUrl().concat(ApiDefinition.MESSAGE_SEND_URI),
-                Void.class, String.class);
+        restTemplate.postForEntity(properties.getRootUrl().concat(ApiDefinition.MESSAGE_SEND_URI), Void.class,
+                String.class);
     }
 
 }
